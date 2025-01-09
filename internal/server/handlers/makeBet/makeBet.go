@@ -1,34 +1,40 @@
-package createAuction
+package makeBet
 
 import (
 	resp "auctions/internal/server/util/response"
 	"log/slog"
 	"net/http"
+	"strconv"
 
+	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/render"
 	"github.com/go-playground/validator/v10"
 )
 
 type Request struct {
-	ProductName string `json:"product_name" validate:"required"`
-	Account     string `json:"account" validate:"required"`
+	Bet     int    `json:"bet" validate:"required"`
+	Account string `json:"account" validate:"required"`
 }
 
-type Response struct {
-	resp.Response
-	TXHash string `json:"tx_hash"`
-}
-
-// template. may be will add dataService
 func New(log *slog.Logger) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		const op = "handler.create.New"
+		const op = "handler.make.New"
 
 		log = log.With("op", op)
 
+		auctionID, err := strconv.Atoi(chi.URLParam(r, "id"))
+		if err != nil {
+			log.Error("failed to decode request id", slog.String("error", err.Error()))
+			render.Status(r, http.StatusBadRequest)
+			render.JSON(w, r, resp.Error(err.Error()))
+			return
+		}
+
+		log.Info("auction ID received", slog.Int("auctionID", auctionID))
+
 		var req Request
 
-		err := render.DecodeJSON(r.Body, &req)
+		err = render.DecodeJSON(r.Body, &req)
 		if err != nil {
 			log.Error("failed to decode request body", slog.String("error", err.Error()))
 			render.Status(r, http.StatusBadRequest)
@@ -47,13 +53,8 @@ func New(log *slog.Logger) http.HandlerFunc {
 
 		// ToDo: add business logic
 
-		txHash := "hash"
-
-		log.Info("created auction", slog.String("hash", txHash))
-		render.Status(r, http.StatusCreated)
-		render.JSON(w, r, Response{
-			Response: resp.OK(),
-			TXHash:   txHash,
-		})
+		log.Info("bet placed", slog.Int("auctionID", auctionID), slog.Int("Bet", req.Bet))
+		render.Status(r, http.StatusOK)
+		render.JSON(w, r, resp.OK())
 	}
 }
