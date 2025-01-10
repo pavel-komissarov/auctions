@@ -5,7 +5,6 @@ go 1.23.4
 require (
 	github.com/go-chi/chi/v5 v5.2.0
 	github.com/go-chi/render v1.0.3
-	github.com/go-playground/validator v9.31.0+incompatible
 	github.com/go-playground/validator/v10 v10.23.0
 )
 
@@ -19,5 +18,4 @@ require (
 	golang.org/x/net v0.21.0 // indirect
 	golang.org/x/sys v0.17.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
-	gopkg.in/go-playground/assert.v1 v1.2.1 // indirect
 )
