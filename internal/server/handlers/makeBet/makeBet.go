@@ -1,7 +1,7 @@
 package makeBet
 
 import (
-	resp "auctions/internal/server/lib/response"
+	resp "auctions/internal/server/handlers"
 	"log/slog"
 	"net/http"
 	"strconv"
