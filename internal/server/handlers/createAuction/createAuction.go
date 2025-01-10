@@ -1,7 +1,7 @@
 package createAuction
 
 import (
-	resp "auctions/internal/server/util/response"
+	resp "auctions/internal/server/lib/response"
 	"log/slog"
 	"net/http"
 
@@ -24,7 +24,7 @@ func New(log *slog.Logger) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		const op = "handler.create.New"
 
-		log = log.With("op", op)
+		log := log.With("op", op)
 
 		var req Request
 

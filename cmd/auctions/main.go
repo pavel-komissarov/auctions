@@ -1,7 +1,7 @@
 package main
 
 import (
-	"auctions/internal/logger"
+	"auctions/internal/lib/logger"
 	"auctions/internal/server/handlers/createAuction"
 	"auctions/internal/server/handlers/makeBet"
 	"auctions/internal/server/mw"
@@ -25,7 +25,7 @@ func main() {
 	router.Use(middleware.URLFormat)
 
 	router.Post("/auctions", createAuction.New(log))
-	router.Post("/auction/{id}", makeBet.New(log))
+	router.Post("/auctions/{id}", makeBet.New(log))
 
 	log.Info("starting server", slog.String("address", "localhost:8888"))
 

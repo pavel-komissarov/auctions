@@ -1,7 +1,7 @@
 package makeBet
 
 import (
-	resp "auctions/internal/server/util/response"
+	resp "auctions/internal/server/lib/response"
 	"log/slog"
 	"net/http"
 	"strconv"
@@ -20,7 +20,7 @@ func New(log *slog.Logger) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		const op = "handler.make.New"
 
-		log = log.With("op", op)
+		log := log.With("op", op)
 
 		auctionID, err := strconv.Atoi(chi.URLParam(r, "id"))
 		if err != nil {
